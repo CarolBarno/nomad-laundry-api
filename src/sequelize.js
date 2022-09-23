@@ -2,12 +2,19 @@ const Sequelize = require('sequelize');
 
 module.exports = function (app) {
   const connectionString = app.get('mysql');
-  const sequelize = new Sequelize(connectionString, {
+  const sequelize = new Sequelize(connectionString.database, connectionString.username, connectionString.password, {
     dialect: 'mysql',
     logging: false,
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 30000,
+      acquire: 100000
+    },
     define: {
       freezeTableName: true
-    }
+    },
+    timezone: '+03:00'
   });
   const oldSetup = app.setup;
 
