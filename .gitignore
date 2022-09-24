@@ -111,3 +111,4 @@ lib/
 data/
 config/
 .env
+error-logs

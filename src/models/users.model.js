@@ -35,10 +35,6 @@ module.exports = function (app) {
       defaultValue: 'I',
       comment: 'A - Active, I - Inactive, B - Blacklisted, D - Deleted'
     },
-    last_login: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
     verifyToken: {
       type: DataTypes.STRING,
       allowNull: true
