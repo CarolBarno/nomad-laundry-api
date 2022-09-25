@@ -5,10 +5,10 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const users = sequelizeClient.define('users', {
-  
+  const users = sequelizeClient.define('laundry_users', {
+
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false,
       unique: true
     },
@@ -16,8 +16,65 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: false
     },
-  
-  
+    first_name: {
+      type: DataTypes.STRING(25),
+      allowNull: false
+    },
+    last_name: {
+      type: DataTypes.STRING(25),
+      allowNull: false
+    },
+    phone_number: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    user_status: {
+      type: DataTypes.CHAR(1),
+      allowNull: false,
+      defaultValue: 'I',
+      comment: 'A - Active, I - Inactive, B - Blacklisted, D - Deleted'
+    },
+    verifyToken: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    resetToken: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    isVerified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    verifyExpires: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    resetExpires: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    verifyChanges: {
+      type: DataTypes.JSON,
+      allowNull: true
+    },
+    password_expiry: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: () => {
+        let date = new Date();
+        let currentMonth = date.getMonth();
+        date.setMonth(currentMonth + 3);
+        return date;
+      }
+    },
+    user_type: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1,
+      comment: '0 - backend, 1 - frontend'
+    }
   }, {
     hooks: {
       beforeCount(options) {
