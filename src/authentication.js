@@ -14,7 +14,7 @@ class CustomAuthService extends AuthenticationService {
     super(app, configKey);
   }
 
-  getPayload(callback) {
+  getPly(callback) {
 
     const executeOnce = () => {
       var executed = false;
@@ -78,7 +78,7 @@ class CustomAuthService extends AuthenticationService {
       } else {
         if (payload.user.user_status === 'A' || payload.user.user_status === 'P') {
           logger.info('Successful login', data);
-          this.getPayload(async (a, b) => {
+          this.getPly(async (a, b) => {
             try {
               await saveSession(a, b);
             } catch (error) {
@@ -95,9 +95,9 @@ class CustomAuthService extends AuthenticationService {
     return payload;
   }
 
-  async getPayloadData(authResult, params) {
-    const payload = await super.getPayloadData(authResult, params);
-    await this.verifySession(authResult.params);
+  async getPayload(authResult, params) {
+    const payload = await super.getPayload(authResult, params);
+    await this.verifySession(authResult, params);
     return payload;
   }
 
