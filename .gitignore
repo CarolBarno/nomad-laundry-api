@@ -112,3 +112,4 @@ data/
 config/
 .env
 error-logs
+.nyc_output/

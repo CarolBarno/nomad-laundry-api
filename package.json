@@ -25,10 +25,12 @@
   },
   "scripts": {
     "test": "npm run lint && npm run mocha",
+    "coverage": "nyc npm run mocha",
     "lint": "eslint src/. test/. --config .eslintrc.json --fix",
     "dev": "nodemon src/",
     "start": "node src/",
-    "mocha": "mocha test/ --recursive --exit"
+    "clean": "shx rm -rf test/data/",
+    "mocha": "npm run clean && NODE_ENV=test mocha test/ --recursive --exit"
   },
   "standard": {
     "env": [
@@ -62,6 +64,8 @@
     "axios": "^0.27.2",
     "eslint": "^7.32.0",
     "mocha": "^8.4.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "nyc": "^15.1.0",
+    "shx": "^0.3.4"
   }
 }
