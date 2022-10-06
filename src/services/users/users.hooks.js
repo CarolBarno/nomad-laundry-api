@@ -4,13 +4,17 @@ const {
   hashPassword, protect
 } = require('@feathersjs/authentication-local').hooks;
 const { isProvider, preventChanges, iff } = require('feathers-hooks-common');
+const performAction = require('../../hooks/common/perform-action');
+const verification = require('../../hooks/users/verification');
 
 module.exports = {
   before: {
     all: [],
     find: [authenticate('jwt')],
     get: [authenticate('jwt')],
-    create: [hashPassword('password'), verifyHooks.addVerification()],
+    create: [
+      iff(performAction('AsyncValidator'), verification()),hashPassword('password'), verifyHooks.addVerification()
+    ],
     update: [hashPassword('password'), authenticate('jwt')],
     patch: [
       iff(isProvider('external'), preventChanges(true,
