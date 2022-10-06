@@ -11,7 +11,7 @@ module.exports = async (app, token) => {
   let time = new Date();
   const userSession = await app.service('laundry-sessions').find({
     query: {
-      access_toke: token,
+      access_token: token,
       session_expiry: { $gte: time },
       $limit: 0
     }

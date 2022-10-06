@@ -13,7 +13,7 @@ module.exports = {
     find: [authenticate('jwt')],
     get: [authenticate('jwt')],
     create: [
-      iff(performAction('AsyncValidator'), verification()),hashPassword('password'), verifyHooks.addVerification()
+      iff(performAction('AsyncValidator'), verification()).else(hashPassword('password'), verifyHooks.addVerification())
     ],
     update: [hashPassword('password'), authenticate('jwt')],
     patch: [
@@ -34,7 +34,7 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [verifyHooks.removeVerification()],
+    create: [iff(context => !context.validation, verifyHooks.removeVerification())],
     update: [],
     patch: [],
     remove: []
