@@ -14,9 +14,9 @@ class CustomAuthService extends AuthenticationService {
     super(app, configKey);
   }
 
-  getPly(callback) {
+  getPly(cb) {
 
-    const executeOnce = () => {
+    const executeOnce = (() => {
       var executed = false;
       return function () {
         if (!executed) {
@@ -26,7 +26,7 @@ class CustomAuthService extends AuthenticationService {
           return false;
         }
       };
-    };
+    })();
 
     this.app.on('login', (authResult) => {
       let saveAuthToken = executeOnce();
@@ -34,7 +34,7 @@ class CustomAuthService extends AuthenticationService {
       if (authResult.authentication.strategy === 'local') {
         try {
           if (authResult && saveAuthToken) {
-            callback(this.app, authResult);
+            cb(this.app, authResult);
           }
         } catch (error) {
           console.log(error);
