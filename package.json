@@ -52,6 +52,7 @@
     "cors": "^2.8.5",
     "feathers-authentication-management": "^2.0.1",
     "feathers-hooks-common": "^6.1.5",
+    "feathers-memory": "^4.1.0",
     "feathers-sequelize": "^6.3.4",
     "helmet": "^4.6.0",
     "mysql2": "^2.3.3",
