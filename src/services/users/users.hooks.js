@@ -10,12 +10,12 @@ const verification = require('../../hooks/users/verification');
 module.exports = {
   before: {
     all: [],
-    find: [authenticate('jwt')],
-    get: [authenticate('jwt')],
+    find: [ authenticate('jwt') ],
+    get: [ authenticate('jwt') ],
     create: [
       iff(performAction('AsyncValidator'), verification()).else(hashPassword('password'), verifyHooks.addVerification())
     ],
-    update: [hashPassword('password'), authenticate('jwt')],
+    update: [ hashPassword('password'), authenticate('jwt') ],
     patch: [
       iff(isProvider('external'), preventChanges(true,
         'isVerified', 'verifyToken', 'verifyShortToken', 'verifyExpires', 'verifyChanges',
@@ -23,7 +23,7 @@ module.exports = {
       )),
       hashPassword('password'), authenticate('jwt')
     ],
-    remove: [authenticate('jwt')]
+    remove: [ authenticate('jwt') ]
   },
 
   after: {
@@ -34,7 +34,7 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [iff(context => !context.validation, verifyHooks.removeVerification())],
+    create: [ iff(context => !context.validation, verifyHooks.removeVerification()) ],
     update: [],
     patch: [],
     remove: []

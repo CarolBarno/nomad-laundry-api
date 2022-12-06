@@ -6,7 +6,7 @@ const { isProd } = require('../common/env');
 const crypto = require('crypto');
 
 function generateOtp() {
-  let otp = 1000 + Math.floor(Math.random() * 9000);
+  let otp = 100000 + Math.floor(Math.random() * 900000);
   return otp;
 }
 
@@ -22,7 +22,7 @@ function sendSms() {
 
     let userInfo = {
       Destination: data.phone_number,
-      Message: isProd ? `Dear ${data.first_name} your OTP is xxxx` : `ear ${data.first_name} your OTP is ${data.otp}`,
+      Message: isProd ? `Dear ${data.first_name} your OTP is xxxxxx` : `Dear ${data.first_name} your OTP is ${data.otp}`,
       otp: true
     };
 
@@ -54,9 +54,8 @@ function hashOtp() {
   return async context => {
     const { app, data } = context;
     const algorithm = 'aes-256-cbc';
-    const password = 'nomadLaundry==!203sIEnsj2021..4s566s';
-
-    const iv = 'abd88a893f0bc4b5';
+    const password = crypto.randomBytes(32);
+    const iv = crypto.randomBytes(16);
 
     const cipher = crypto.createCipheriv(algorithm, password, iv);
 
@@ -77,8 +76,8 @@ function decipherOtp() {
   return context => {
     const { id } = context;
     const algorithm = 'aes-256-cbc';
-    const password = 'nomadLaundry==!203sIEnsj2021..4s566s';
-    const iv = 'abd88a893f0bc4b5';
+    const password = crypto.randomBytes(32);
+    const iv = crypto.randomBytes(16);
 
     const decipher = crypto.createDecipheriv(algorithm, password, iv);
 

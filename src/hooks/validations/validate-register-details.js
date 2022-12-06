@@ -3,7 +3,7 @@
 
 const errors = require('@feathersjs/errors');
 const logger = require('../../logger');
-let clientValidations = {};
+const clientValidations = {};
 
 clientValidations.signup = values => {
   const errors = {};
@@ -22,8 +22,8 @@ clientValidations.signupAsync = ({ email, id_number }, context) =>
     context.app.service('users').find({
       query: {
         $or: [
-          email,
-          id_number
+          { email },
+          { id_number }
         ],
         $limit: 1
       }

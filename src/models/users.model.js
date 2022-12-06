@@ -24,6 +24,11 @@ module.exports = function (app) {
       type: DataTypes.STRING(25),
       allowNull: false
     },
+    id_number: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      unique: true
+    },
     phone_number: {
       type: DataTypes.STRING,
       allowNull: false,

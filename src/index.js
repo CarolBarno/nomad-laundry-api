@@ -9,5 +9,6 @@ process.on('unhandledRejection', (reason, p) =>
 );
 
 server.on('listening', () =>
-  logger.info('Nomad Laundry application started on http://%s:%d', app.get('host'), port)
+  console.log('Nomad Laundry application started on http://%s:%d', app.get('host'), port),
+logger.info('Nomad Laundry application started on http://%s:%d', app.get('host'), port)
 );

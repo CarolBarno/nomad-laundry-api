@@ -9,11 +9,11 @@ module.exports = {
   before: {
     all: [],
     find: [],
-    get: [decipherOtp()],
+    get: [ decipherOtp() ],
     create: [
       iff(performAction('sendEmail'), validate(validations.signup), validate((values, context) => validations.signupAsync(values, context))),
-      iff(performAction('UserUpdateEmail'), validateEmail()),
-      iff(performAction('UserUpdatePhone'), validatePhoneNumber()),
+      iff(performAction('userUpdateEmail'), validateEmail()),
+      iff(performAction('userUpdatePhone'), validatePhoneNumber()),
       sendSms(), hashOtp()
     ],
     update: [],
