@@ -12,6 +12,8 @@ const sms = require('./sms/sms.service.js');
 
 const laundryEmailQueue = require('./laundry-email-queue/laundry-email-queue.service.js');
 
+const emailTemplate = require('./email-template/email-template.service.js');
+
 module.exports = function (app) {
   app.configure(users);
   app.configure(laundryUsersOnline);
@@ -22,4 +24,5 @@ module.exports = function (app) {
   app.configure(email);
   app.configure(sms);
   app.configure(laundryEmailQueue);
+  app.configure(emailTemplate);
 };

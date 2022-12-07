@@ -1,3 +1,7 @@
+const { iff } = require('feathers-hooks-common');
+const performAction = require('../../hooks/common/perform-action');
+const userVerification = require('../../hooks/register/user-verification');
+const welcomeEmail = require('../../hooks/users/welcome-email');
 
 
 module.exports = {
@@ -5,7 +9,10 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [
+      iff(performAction('sendOTP'), userVerification()),
+      iff(performAction('userRegistration'), welcomeEmail())
+    ],
     update: [],
     patch: [],
     remove: []

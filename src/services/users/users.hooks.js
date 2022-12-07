@@ -4,6 +4,7 @@ const {
   hashPassword, protect
 } = require('@feathersjs/authentication-local').hooks;
 const { isProvider, preventChanges, iff } = require('feathers-hooks-common');
+const notifier = require('../../hooks/common/notify');
 const performAction = require('../../hooks/common/perform-action');
 const verification = require('../../hooks/users/verification');
 
@@ -34,7 +35,13 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [iff(context => !context.validation, verifyHooks.removeVerification())],
+    create: [
+      iff(
+        performAction('sendEmail'),
+        context => { notifier(context.app).notifier('resendVerifySignup', context.result, context.data); },
+        verifyHooks.removeVerification()
+      ),
+    ],
     update: [],
     patch: [],
     remove: []
