@@ -21,8 +21,8 @@ function sendSms() {
     }
 
     let userInfo = {
-      Destination: data.phone_number,
-      Message: isProd ? `Dear ${data.first_name} your OTP is xxxxxx` : `Dear ${data.first_name} your OTP is ${data.otp}`,
+      destination: data.phone_number,
+      message: isProd ? `Dear ${data.first_name} your OTP is xxxxxx` : `Dear ${data.first_name} your OTP is ${data.otp}`,
       otp: true
     };
 
