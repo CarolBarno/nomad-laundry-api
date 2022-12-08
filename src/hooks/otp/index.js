@@ -22,7 +22,7 @@ function sendSms() {
 
     let userInfo = {
       destination: data.phone_number,
-      message: isProd ? `Dear ${data.first_name} your OTP is xxxxxx` : `Dear ${data.first_name} your OTP is ${data.otp}`,
+      message: isProd ? `Dear ${data.first_name}, your OTP is xxxxxx` : `Dear ${data.first_name}, your OTP is ${data.otp}`,
       otp: true
     };
 
@@ -54,8 +54,8 @@ function hashOtp() {
   return async context => {
     const { app, data } = context;
     const algorithm = 'aes-256-cbc';
-    const password = crypto.randomBytes(32);
-    const iv = crypto.randomBytes(16);
+    const password = 'eAuqtion==!203sIEnsj2021..4s566s';
+    const iv = 'abd88a893f0bc4b5';
 
     const cipher = crypto.createCipheriv(algorithm, password, iv);
 
@@ -76,8 +76,8 @@ function decipherOtp() {
   return context => {
     const { id } = context;
     const algorithm = 'aes-256-cbc';
-    const password = crypto.randomBytes(32);
-    const iv = crypto.randomBytes(16);
+    const password = 'eAuqtion==!203sIEnsj2021..4s566s';
+    const iv = 'abd88a893f0bc4b5';
 
     const decipher = crypto.createDecipheriv(algorithm, password, iv);
 

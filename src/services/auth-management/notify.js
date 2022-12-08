@@ -1,7 +1,8 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
-const { tokenUrl, logErrors } = require('./env');
+const { tokenUrl, logErrors } = require('../../hooks/common/env');
+
 
 module.exports = (app) => {
   function getLink(type, hash) {

@@ -69,10 +69,10 @@ module.exports = function (app) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
     emailTemplate.belongsTo(models.laundry_users, {
-      as: 'user_created', onDelate: 'RESTRICT', onUpdate: 'CASCADE', foreignKey: 'created_by'
+      as: 'user_created', onDelete: 'RESTRICT', onUpdate: 'CASCADE', foreignKey: 'created_by'
     });
     emailTemplate.belongsTo(models.laundry_users, {
-      as: 'user_updated', onDelate: 'RESTRICT', onUpdate: 'CASCADE', foreignKey: 'updated_by'
+      as: 'user_updated', onDelete: 'RESTRICT', onUpdate: 'CASCADE', foreignKey: 'updated_by'
     });
   };
 

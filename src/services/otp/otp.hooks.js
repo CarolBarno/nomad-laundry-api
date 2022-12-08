@@ -9,7 +9,7 @@ module.exports = {
   before: {
     all: [],
     find: [],
-    get: [ decipherOtp() ],
+    get: [decipherOtp()],
     create: [
       iff(performAction('sendEmail'), validate(validations.signup), validate((values, context) => validations.signupAsync(values, context))),
       iff(performAction('userUpdateEmail'), validateEmail()),

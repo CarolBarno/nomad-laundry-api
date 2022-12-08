@@ -1,12 +1,10 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const verifyHooks = require('feathers-authentication-management').hooks;
-const {
-  hashPassword, protect
-} = require('@feathersjs/authentication-local').hooks;
+const { hashPassword, protect } = require('@feathersjs/authentication-local').hooks;
 const { isProvider, preventChanges, iff } = require('feathers-hooks-common');
-const notifier = require('../../hooks/common/notify');
 const performAction = require('../../hooks/common/perform-action');
 const verification = require('../../hooks/users/verification');
+const notifier = require('../auth-management/notify');
 
 module.exports = {
   before: {
@@ -14,7 +12,7 @@ module.exports = {
     find: [authenticate('jwt')],
     get: [authenticate('jwt')],
     create: [
-      iff(performAction('AsyncValidator'), verification()).else(hashPassword('password'), verifyHooks.addVerification())
+      iff(performAction('AsyncValidator'), verification()), hashPassword('password'), verifyHooks.addVerification()
     ],
     update: [hashPassword('password'), authenticate('jwt')],
     patch: [
