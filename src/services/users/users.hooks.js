@@ -1,11 +1,10 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const verifyHooks = require('feathers-authentication-management').hooks;
-const {
-  hashPassword, protect
-} = require('@feathersjs/authentication-local').hooks;
+const { hashPassword, protect } = require('@feathersjs/authentication-local').hooks;
 const { isProvider, preventChanges, iff } = require('feathers-hooks-common');
 const performAction = require('../../hooks/common/perform-action');
 const verification = require('../../hooks/users/verification');
+const notifier = require('../auth-management/notify');
 
 module.exports = {
   before: {
@@ -13,7 +12,7 @@ module.exports = {
     find: [authenticate('jwt')],
     get: [authenticate('jwt')],
     create: [
-      iff(performAction('AsyncValidator'), verification()).else(hashPassword('password'), verifyHooks.addVerification())
+      iff(performAction('AsyncValidator'), verification()), hashPassword('password'), verifyHooks.addVerification()
     ],
     update: [hashPassword('password'), authenticate('jwt')],
     patch: [
@@ -34,7 +33,13 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [iff(context => !context.validation, verifyHooks.removeVerification())],
+    create: [
+      iff(
+        performAction('sendEmail'),
+        context => { notifier(context.app).notifier('resendVerifySignup', context.result, context.data); },
+        verifyHooks.removeVerification()
+      ),
+    ],
     update: [],
     patch: [],
     remove: []

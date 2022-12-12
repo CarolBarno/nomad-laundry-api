@@ -8,7 +8,7 @@ function encryptPassword(field) {
   return context => {
     const { data } = context;
     const algorithm = 'aes-192-cbc';
-    const password = 'Ytadk009yyyetw98HAH===';
+    const password = crypto.randomBytes(32);
     const key = crypto.scryptSync(password, 'salt', 24);
     const iv = Buffer.alloc(16, 0);
     const cipher = crypto.createCipheriv(algorithm, key, iv);
@@ -36,7 +36,7 @@ function encryptPassword(field) {
 
 function decryptPassword(hashedPass) {
   const algorithm = 'aes-192-cbc';
-  const password = 'Ytadk009yyyetw98HAH===';
+  const password = crypto.randomBytes(32);
   const key = crypto.scryptSync(password, 'salt', 24);
   const iv = Buffer.alloc(16, 0);
   const decipher = crypto.createDecipheriv(algorithm, key, iv);

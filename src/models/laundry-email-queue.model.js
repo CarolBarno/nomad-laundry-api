@@ -50,6 +50,9 @@ module.exports = function (app) {
     laundryEmailQueue.belongsTo(models.laundry_users, {
       as: 'user', onDelete: 'RESTRICT', onUpdate: 'CASCADE', foreignKey: 'user_id'
     });
+    laundryEmailQueue.belongsTo(models.laundry_email_template, {
+      as: 'email_template', foreignKey: 'email_template_id'
+    });
   };
 
   return laundryEmailQueue;

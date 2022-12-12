@@ -1,11 +1,8 @@
-// Application hooks that run for every service
-
-const { disallow, iff, isProvider } = require('feathers-hooks-common');
-const createdUpdatedBy = require('./hooks/common/created-updated-by');
+const { authenticate } = require('@feathersjs/authentication').hooks;
 
 module.exports = {
   before: {
-    all: [disallow('rest'), iff(isProvider('external'), createdUpdatedBy())],
+    all: [ authenticate('jwt') ],
     find: [],
     get: [],
     create: [],
