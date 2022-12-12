@@ -48,7 +48,6 @@ module.exports = () => {
     };
 
     sendEmail(emailData, smtpSettings).then(() => {
-      emailData.sent = true;
       queueEmail(emailData).catch(error => logErrors('error', error));
     }).catch(error => {
       emailData.sent = false;

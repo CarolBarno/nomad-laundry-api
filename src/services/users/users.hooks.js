@@ -5,6 +5,10 @@ const { isProvider, preventChanges, iff } = require('feathers-hooks-common');
 const performAction = require('../../hooks/common/perform-action');
 const verification = require('../../hooks/users/verification');
 const notifier = require('../auth-management/notify');
+const { userRoute } = require('../../hooks/common/shared-util');
+const changePasswordAck = require('../../hooks/users/change-password-ack');
+const userChangePassword = require('../../hooks/users/user-change-password');
+const enforcePasswordChange = require('../../hooks/users/enforce-password-change');
 
 module.exports = {
   before: {
@@ -41,7 +45,14 @@ module.exports = {
       ),
     ],
     update: [],
-    patch: [],
+    patch: [
+      iff(isProvider('external'), preventChanges(true, 'isVerified', 'verifyToken', 'verifyExpires', 'verifyChanges', 'resetToken', 'resetExpires')),
+      iff(performAction('validUserChangePassword'), authenticate('jwt'), userChangePassword(),hashPassword('password')).else(
+        authenticate('jwt'),
+        iff(isProvider('external'), enforcePasswordChange()),
+        hashPassword('password')
+      )
+    ],
     remove: []
   },
 
@@ -51,7 +62,9 @@ module.exports = {
     get: [],
     create: [],
     update: [],
-    patch: [],
+    patch: [
+      iff(userRoute('ackUserPasswordChange'), changePasswordAck())
+    ],
     remove: []
   }
 };

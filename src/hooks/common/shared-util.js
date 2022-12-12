@@ -11,4 +11,6 @@ sharedUtil.formatEmailTemplate = (emailTemplate, data) => {
   return htmlToSend;
 };
 
+sharedUtil.userRoute = (route) => (context) => Object.prototype.hasOwnProperty.call((context.params.query || {}), route) || context[route] === true;
+
 module.exports =  sharedUtil;
