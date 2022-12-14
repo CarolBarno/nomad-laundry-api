@@ -16,6 +16,18 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    two_step_auth_status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      comment: '1 - authenticated, null - pending, 0 - not authenticated',
+      defaultValue: null
+    },
+    two_step_auth_set: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      default: false,
+      comment: '1 - two step auth enabled, 0 - two step auth disabled'
+    },
     first_name: {
       type: DataTypes.STRING(25),
       allowNull: false
@@ -33,6 +45,10 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
+    },
+    id_upload: {
+      type: DataTypes.TEXT,
+      allowNull: true
     },
     user_status: {
       type: DataTypes.CHAR(1),
