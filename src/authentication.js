@@ -137,7 +137,7 @@ class CustomAuthService extends AuthenticationService {
     try {
       await saveToken(this.app, auth);
     } catch (error) {
-      logger('error', error);
+      logger.error('error', error);
     }
 
     return verified;

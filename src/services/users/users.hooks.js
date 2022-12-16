@@ -20,11 +20,12 @@ module.exports = {
     ],
     update: [hashPassword('password'), authenticate('jwt')],
     patch: [
-      iff(isProvider('external'), preventChanges(true,
-        'isVerified', 'verifyToken', 'verifyShortToken', 'verifyExpires', 'verifyChanges',
-        'resetToken', 'resetShortToken', 'resetExpires'
-      )),
-      hashPassword('password'), authenticate('jwt')
+      iff(isProvider('external'), preventChanges(true, 'isVerified', 'verifyToken', 'verifyExpires', 'verifyChanges', 'resetToken', 'resetExpires')),
+      iff(performAction('validUserChangePassword'), authenticate('jwt'), userChangePassword(),hashPassword('password')).else(
+        authenticate('jwt'),
+        iff(isProvider('external'), enforcePasswordChange()),
+        hashPassword('password')
+      )
     ],
     remove: [authenticate('jwt')]
   },
@@ -46,12 +47,7 @@ module.exports = {
     ],
     update: [],
     patch: [
-      iff(isProvider('external'), preventChanges(true, 'isVerified', 'verifyToken', 'verifyExpires', 'verifyChanges', 'resetToken', 'resetExpires')),
-      iff(performAction('validUserChangePassword'), authenticate('jwt'), userChangePassword(),hashPassword('password')).else(
-        authenticate('jwt'),
-        iff(isProvider('external'), enforcePasswordChange()),
-        hashPassword('password')
-      )
+      iff(userRoute('ackUserPasswordChange'), changePasswordAck())
     ],
     remove: []
   },
@@ -62,9 +58,7 @@ module.exports = {
     get: [],
     create: [],
     update: [],
-    patch: [
-      iff(userRoute('ackUserPasswordChange'), changePasswordAck())
-    ],
+    patch: [],
     remove: []
   }
 };
