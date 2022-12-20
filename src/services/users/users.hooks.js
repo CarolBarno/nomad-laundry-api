@@ -10,6 +10,7 @@ const changePasswordAck = require('../../hooks/users/change-password-ack');
 const userChangePassword = require('../../hooks/users/user-change-password');
 const enforcePasswordChange = require('../../hooks/users/enforce-password-change');
 const enforceTwoStepAuth = require('../../hooks/users/enforce-two-step-auth');
+const completeUserAuth = require('../../hooks/users/complete-user-auth');
 
 module.exports = {
   before: {
@@ -26,6 +27,7 @@ module.exports = {
         authenticate('jwt'),
         iff(performAction('userSetTwoStepAuth'), enforceTwoStepAuth()),
         iff(isProvider('external'), enforcePasswordChange()),
+        iff(performAction('completeUserSignIn'), completeUserAuth()),
         hashPassword('password')
       )
     ],

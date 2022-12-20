@@ -78,6 +78,7 @@ class CustomAuthService extends AuthenticationService {
       } else {
         if (payload.user.user_status === 'A' || payload.user.user_status === 'P') {
           logger.info('Successful login', data);
+          this.updateUserAuthStatus(payload.user, null);
           this.getPly(async (a, b) => {
             try {
               await saveSession(a, b);
@@ -111,6 +112,7 @@ class CustomAuthService extends AuthenticationService {
     }
 
     await removeSession(this.app, user);
+    this.updateUserAuthStatus(user, false);
 
     let data = {
       time: `${new Date().toLocaleTimeString()}`,
@@ -149,6 +151,12 @@ class CustomAuthService extends AuthenticationService {
       throw new NotAuthenticated('Invalid session');
     }
     return super.verifyAccessToken(accessToken);
+  }
+
+  updateUserAuthStatus(user, status) {
+    if(user.id) {
+      this.app.service('users')._patch(user.id, { two_step_auth_status: status });
+    }
   }
 }
 
