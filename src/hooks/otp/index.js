@@ -6,7 +6,7 @@ const { isProd } = require('../common/env');
 const crypto = require('crypto');
 
 function generateOtp() {
-  let otp = 100000 + Math.floor(Math.random() * 900000);
+  let otp = 1000 + Math.floor(Math.random() * 9000);
   return otp;
 }
 
