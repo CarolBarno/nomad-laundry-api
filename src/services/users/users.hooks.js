@@ -9,6 +9,7 @@ const { userRoute } = require('../../hooks/common/shared-util');
 const changePasswordAck = require('../../hooks/users/change-password-ack');
 const userChangePassword = require('../../hooks/users/user-change-password');
 const enforcePasswordChange = require('../../hooks/users/enforce-password-change');
+const enforceTwoStepAuth = require('../../hooks/users/enforce-two-step-auth');
 
 module.exports = {
   before: {
@@ -23,6 +24,7 @@ module.exports = {
       iff(isProvider('external'), preventChanges(true, 'isVerified', 'verifyToken', 'verifyExpires', 'verifyChanges', 'resetToken', 'resetExpires')),
       iff(performAction('validUserChangePassword'), authenticate('jwt'), userChangePassword(),hashPassword('password')).else(
         authenticate('jwt'),
+        iff(performAction('userSetTwoStepAuth'), enforceTwoStepAuth()),
         iff(isProvider('external'), enforcePasswordChange()),
         hashPassword('password')
       )
